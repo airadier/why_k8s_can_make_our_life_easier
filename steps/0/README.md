@@ -47,6 +47,7 @@ kubectl port-forward --namespace kube-system $REGISTRY_POD 5000:5000 &
 In case of using mac, please add `docker.for.mac.localhost:5000` in the insecure
 registry list so docker daemon will run against the local interface.
 
+**AIM Note: On Windows with docker tools, docker is inside VM so can't access localhost:5000. I used docker-machine ssh default -R 5000:localhost:5000 to enable port redirection. It works on bash but not on powershell**
 
 Now we should be able to push form our host (local) and pull from
 the nodes. Let's try it.
@@ -63,6 +64,8 @@ And now run a pod in the k8s cluster
  kubectl run -i --tty busybox --image=10.101.91.182:5000/busybox:latest --restart=Never -- sh 
 ```
 > This is IP (10.101.91.182) is the fix cluster Ip assigned to the registry (check the yaml)
+
+**AIM Note: Docker tries to pull image using https, instead of http**
 
  ## Install helm
  
